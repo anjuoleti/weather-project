@@ -1,0 +1,213 @@
+<html>
+    <head>
+        <style>
+            
+            .sky{
+                background: url(https://tse4.mm.bing.net/th?id=OIP.qfOtSaJWm6PqTa7qyT7JCgHaEo&pid=Api&P=0);
+                background-position: center;
+                background-size: cover;
+                height: 100vh;
+               
+              
+                background-color: rgb(17, 16, 16);
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+            .container{
+                width:320px;
+                padding:35px 45px;
+                background:linear-gradient(to bottom,skyblue,rgb(84, 164, 196),rgb(12, 117, 158)) ;
+                border-radius: 20px;
+                
+            }
+            button{
+                border: none;
+                background: transparent;
+                outline: none;
+            }
+            .image1{
+                width:50px;
+                height:50px;
+                border-radius:50%;
+
+                margin-left: 20px;
+               
+            }
+            input{
+                width:270px;
+                height:50px;
+                border:2px solid black;
+                
+                border-radius: 30px;
+                padding-left: 10px;
+                
+                cursor: pointer;
+                
+            }
+            .i1{
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .img2{
+                margin-top: 20px;
+                width:170px;
+                height:150px;
+                border-radius: 80%;
+            }
+            .body1{
+                text-align: center;
+            }
+            h1{
+                font-size: 50px;
+                color: aliceblue;
+                margin-top: -3px;
+            }
+            
+            p{
+                font-size: 35px;
+                margin-top:-25px;
+                color:white;
+
+            }
+            .img3,.img4{
+                width:120px;
+                height:120px;
+                border-radius: 50%;
+            }
+            .hw{
+                display:flex;
+                justify-content: space-between;
+                margin-top: -8px;
+            }
+            h2{
+                font-size: 30px;
+                color: aliceblue;
+                margin-top: -3px;
+            }
+            .p1{
+                font-size:20px;
+                color: aliceblue;
+                margin-top: -20px;
+            }
+            .weather{
+                display: none;
+            }
+            .error{
+                margin-top: -0.5px;
+                color:red;
+                margin-left: 10px;
+                display:none;
+                
+            }
+            
+
+        </style>
+        <script src="https://kit.fontawesome.com/913c1e3a15.js" crossorigin="anonymous"></script>
+    </head>
+    <body><div class="sky">
+        <div class="container">
+            <div class="i1">
+            <input type="text" placeholder="enter city/country" spellcheck="false" class="text1">
+            
+           
+                <button><img src="https://www.shutterstock.com/image-vector/search-icon-vector-editable-eps10-600w-1263924991.jpg" class="image1"></button>
+               
+            
+            </div>
+            <h3 class="error"> Invalid Name</h3>
+            <div class="weather">
+            <div class="body1">
+                <img src="https://tse2.mm.bing.net/th?id=OIP.9SGl3HZE1Ornefqithfp0QHaF-&pid=Api&P=0" class="img2">
+                <h1 class="temp">22°C</h1>
+                <p class="name">New York</p>
+            </div>
+            <div class="hw">
+            <div class="humid">
+                <img src="https://tse3.mm.bing.net/th?id=OIP.T01p4r-WiQWH0yBFPZ64JgAAAA&pid=Api&P=0" class="img3">
+                
+                <h2 class="humidity">50%</h2>
+                <p class="p1">Humidity</p>
+                
+
+            </div>
+            <div class="wind">
+                <img src="https://free.clipartof.com/1649-Free-Clipart-Of-A-Cloud-Blowing-Wind.png" class="img4">
+            
+                <h2 class="speed">15km/h</h2>
+                <p class="p1">wind speed</p>
+
+            </div>
+            </div>
+        </div>
+
+        </div>
+    </div>
+        <script>
+            var searchbtn=document.querySelector(".i1 input");
+            var searchimg=document.querySelector(".i1 button");
+            var weathericon=document.querySelector(".img2");
+            var weather=document.querySelector(".weather");
+            var error=document.querySelector(".error");
+            var text1=document.querySelector(".text1");
+            var apikey="f4fcc299dbf853195367e06f5a2b4691";
+            var apiurl="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+            
+            async function CheckWeather(city){
+                var response=await fetch(apiurl+city+`&appid=${apikey}`);
+                if(response.status==404){
+                    error.style.display="block";
+                    weather.style.display="none";
+                    text1.style.borderColor="red";
+
+
+                }
+                else{
+                    weather.style.display="block";
+                    error.style.display="none";
+                    text1.style.borderColor="black";
+                }
+                var data = await response.json();
+                
+                document.querySelector(".name").innerHTML=data.name;
+                document.querySelector(".humidity").innerHTML=data.main.humidity+"%";
+                document.querySelector(".speed").innerHTML=data.wind.speed+"km/h";
+                document.querySelector(".temp").innerHTML=Math.round(data.main.temp)+"°C";
+                
+                if(data.weather[0].main=="Clouds"){
+                    weathericon.src="https://www.freepnglogos.com/uploads/cloud-clipart/clipart-clouds-png-1.png";
+                }
+                else if(data.weather[0].main=="Mist"){
+                    weathericon.src="https://tse1.mm.bing.net/th?id=OIP.bdCtkcNTzssF2FbLFnUD_QHaHa&pid=Api&P=0";
+                }
+                else if(data.weather[0].main=="Rain"){
+                    weathericon.src="https://tse4.mm.bing.net/th?id=OIP.u84GqK_SShzyE9NObAx9YAHaG6&pid=Api&P=0";
+                }
+                else if(data.weather[0].main=="Clear"){
+                    weathericon.src="https://tse3.mm.bing.net/th?id=OIP.3-w_X_hGQoFdb5yN2AnxiQHaHZ&pid=Api&P=0";
+                }
+                else if(data.weather[0].main=="Drizzle"){
+                    weathericon.src="https://tse2.mm.bing.net/th?id=OIP.9UyX6WtLRDvy0b9MqdqJKwHaHa&pid=Api&P=0";
+                }
+                weather.style.display="block";
+
+
+
+
+
+
+
+
+            }
+            searchimg.addEventListener("click",()=>{
+                CheckWeather(searchbtn.value);
+
+
+            })
+            
+            
+        </script>
+    </body>
+</html>
